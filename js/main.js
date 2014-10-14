@@ -19,7 +19,11 @@ var user_interface = {
     reset_scores: null,
     score1element: null,
     score2element: null,
-    finisher_color: 'orange'
+    finisher_color: 'orange',
+    ai_check: null,
+    ai_player: 1,
+    ai_delay: 100,
+    is_ai: true
 };
 
 function start_game() {
@@ -38,18 +42,30 @@ function start_game() {
     user_interface.reset_scores = document.getElementById('reset_scores');
     user_interface.score1element = document.getElementById("score1");
     user_interface.score2element = document.getElementById("score2");
-
-    update_score();
-    debug_message("Debug");
+    user_interface.ai_check = document.getElementById("ai_check");
+    
 
     /* Assign Functionality to play */
     add_listener(user_interface.cells, 'click', move);
     add_listener([user_interface.new_game], 'click', new_game);
     add_listener([user_interface.reset_scores], 'click', reset_scores);
+    add_listener([user_interface.ai_check], 'change', check_ai);
+    
+    /* Set Params */
+    if(!user_interface.is_ai) {
+        user_interface.ai_check.checked = undefined;
+    } else {
+        if(user_interface.ai_player == 0) {
+            ai_move();
+        }
+    }
+
+    update_score();
+    debug_message("Debug");
 }
 
 function generate_game_area() {
-    var gameHTML = "<div class=\"instance\">";
+    var gameHTML = "<div id=\"options\"><input type=\"checkbox\" id=\"ai_check\" checked=\"checked\" /><label for=\"ai\">Player 2 is Computer</label></div><div class=\"instance\">";
     for (var i = 1; i < 10; i++) {
         var filler = "?";
         if (user_interface.debug) {
@@ -96,13 +112,14 @@ function update_score() {
 }
 
 function new_game() {
+    user_interface.is_ai = (user_interface.ai_check.checked) ? true : false;
     user_interface.game.innerHTML = "";
     start_game();
 }
 
 function reset_scores() {
     user_interface.score1 = user_interface.score2 = 0;
-    update_score();
+    new_game();
 }
 
 function move() {
@@ -128,10 +145,32 @@ function move() {
                 } else {
                     user_interface.player++;
                     user_interface.player %= 2;
+                    if(user_interface.ai_check.checked && ((user_interface.moves % 2) == user_interface.ai_player)) {
+                        setTimeout(ai_move , user_interface.ai_delay);
+                    }
                 }
             }
         }
     }
+}
+
+function check_ai() {
+    user_interface.ai_player = ((user_interface.moves + 1) % 2);
+}
+
+function ai_move() {
+    var ai_options = [];
+    for(var i=0; i<user_interface.cells.length; i++) {
+        var value = user_interface.cells[i].innerHTML;
+        if (value != "X" && value != "O") {
+            ai_options.push(i);
+        }
+    }
+    user_interface.cells[ai_options[pick_move(ai_options)]].click();
+}
+
+function pick_move(ai_options) {
+    return Math.floor(Math.random() * ai_options.length);
 }
 
 function check(cell) {

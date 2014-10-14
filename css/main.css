@@ -120,10 +120,13 @@ body {
     width: 280px;
 }
 
+.instance, #options {
+    margin: 10px auto;
+    width: 156px;
+}
+
 .instance {
     border: 1px solid black;
-    margin: 0 auto;
-    width: 156px;
 }
 
 .cell {
