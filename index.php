@@ -19,10 +19,9 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <div id="title">Tic Tac Toe</div>
-        <div id="author">Gulfaraz Yasin</div>
-        <div id="game">
-        </div>
+        <div id="title"><a href="index.php" title="Tic Tac Toe">Tic Tac Toe</a></div>
+        <div id="author"><a href="//gulfaraz.com" title="Gulfaraz Yasin">Gulfaraz Yasin</a></div>
+        <div id="game">Your browser does not support JavaScript.<br/><br/>Please enable JavaScript in your browser or switch to a browser that uses JavaScript to play the awesome game.<br/><br/><a href="https://www.mozilla.org/en-US/" tite="Mozilla">Click here to download a good browser.</a></div>
         <?php
         if(isset($_GET["debug"])) {
             echo "<div id=\"debug\"></div>";
