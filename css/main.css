@@ -175,7 +175,8 @@ body {
 }
 
 #author {
-    font-size: 20px;
+	text-align: left;
+    font-size: 14px;
 }
 
 #debug {

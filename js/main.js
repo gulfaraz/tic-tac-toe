@@ -15,7 +15,8 @@ var user_interface = {
     cells: [],
     players: [],
     debug: null,
-    reset: null,
+    new_game: null,
+    reset_scores: null,
     score1element: null,
     score2element: null,
     finisher_color: 'orange'
@@ -33,7 +34,8 @@ function start_game() {
     user_interface.cells = document.getElementsByClassName('cell');
     user_interface.players = document.getElementsByClassName("player");
     user_interface.debug = document.getElementById("debug");
-    user_interface.reset = document.getElementById('reset');
+    user_interface.new_game = document.getElementById('new_game');
+    user_interface.reset_scores = document.getElementById('reset_scores');
     user_interface.score1element = document.getElementById("score1");
     user_interface.score2element = document.getElementById("score2");
 
@@ -42,7 +44,8 @@ function start_game() {
 
     /* Assign Functionality to play */
     add_listener(user_interface.cells, 'click', move);
-    add_listener([user_interface.reset], 'click', reset);
+    add_listener([user_interface.new_game], 'click', new_game);
+    add_listener([user_interface.reset_scores], 'click', reset_scores);
 }
 
 function generate_game_area() {
@@ -59,7 +62,7 @@ function generate_game_area() {
 }
 
 function generate_GUI() {
-    guiHTML = "<table class=\"scoreboard\"><tr><th class=\"player\" id=\"control\">Player 1</th><th class=\"player\">Player 2</th></tr><tr><td id=\"score1\">Score 1</td><td id=\"score2\">Score 2</td></tr><tr><td id=\"reset\" colspan=\"2\">Reset</td></tr></table>";
+    guiHTML = "<table class=\"scoreboard\"><tr><th class=\"player\" id=\"control\">Player 1</th><th class=\"player\">Player 2</th></tr><tr><td id=\"score1\">Score 1</td><td id=\"score2\">Score 2</td></tr><tr><td id=\"new_game\" colspan=\"2\">New Game</td></tr><tr><td id=\"reset_scores\" colspan=\"2\">Reset Scores</td></tr></table>";
     return guiHTML;
 }
 
@@ -83,7 +86,7 @@ function end_game(winner) {
     }
     debug_message(winner_debug);
     user_interface.gameOver = true;
-    user_interface.reset.id = "control";
+    user_interface.new_game.id = "control";
     user_interface.moves = 0;
 }
 
@@ -92,9 +95,14 @@ function update_score() {
     user_interface.score2element.innerHTML = user_interface.score2;
 }
 
-function reset() {
+function new_game() {
     user_interface.game.innerHTML = "";
     start_game();
+}
+
+function reset_scores() {
+    user_interface.score1 = user_interface.score2 = 0;
+    update_score();
 }
 
 function move() {
