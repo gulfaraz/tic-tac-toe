@@ -120,6 +120,10 @@ body {
     width: 280px;
 }
 
+#ai_check {
+    margin: 0 5px;
+}
+
 .instance, #options {
     margin: 10px auto;
     width: 156px;
